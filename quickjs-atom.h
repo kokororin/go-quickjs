@@ -201,7 +201,7 @@ DEF(RegExp, "RegExp")
 DEF(ArrayBuffer, "ArrayBuffer")
 DEF(SharedArrayBuffer, "SharedArrayBuffer")
 /* must keep same order as class IDs for typed arrays */
-DEF(Uint8ClampedArray, "Uint8ClampedArray") 
+DEF(Uint8ClampedArray, "Uint8ClampedArray")
 DEF(Int8Array, "Int8Array")
 DEF(Uint8Array, "Uint8Array")
 DEF(Int16Array, "Int16Array")
@@ -268,5 +268,5 @@ DEF(Symbol_asyncIterator, "Symbol.asyncIterator")
 #ifdef CONFIG_BIGNUM
 DEF(Symbol_operatorSet, "Symbol.operatorSet")
 #endif
-    
+
 #endif /* DEF */

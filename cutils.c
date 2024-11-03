@@ -172,7 +172,7 @@ int __attribute__((format(printf, 2, 3))) dbuf_printf(DynBuf *s,
     va_list ap;
     char buf[128];
     int len;
-    
+
     va_start(ap, fmt);
     len = vsnprintf(buf, sizeof(buf), fmt, ap);
     va_end(ap);
