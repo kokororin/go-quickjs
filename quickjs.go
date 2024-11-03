@@ -1,15 +1,5 @@
 package quickjs
 
-import (
-	"errors"
-	"fmt"
-	"io"
-	"math/big"
-	"sync"
-	"sync/atomic"
-	"unsafe"
-)
-
 /*
 #cgo CFLAGS: -D_GNU_SOURCE
 #cgo CFLAGS: -DCONFIG_BIGNUM
@@ -19,6 +9,15 @@ import (
 #include "bridge.h"
 */
 import "C"
+import (
+	"errors"
+	"fmt"
+	"io"
+	"math/big"
+	"sync"
+	"sync/atomic"
+	"unsafe"
+)
 
 type Runtime struct {
 	ref *C.JSRuntime
