@@ -1,6 +1,6 @@
 /*
  * Tiny arbitrary precision floating point library
- * 
+ *
  * Copyright (c) 2017-2020 Fabrice Bellard
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
