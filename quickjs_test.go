@@ -128,6 +128,27 @@ func TestFunction(t *testing.T) {
 	<-B
 }
 
+func TestJsFunction(t *testing.T) {
+	runtime := NewRuntime()
+	defer runtime.Free()
+
+	context := runtime.NewContext()
+	defer context.Free()
+
+	context.Globals().SetFunction("callback", func(ctx *Context, this Value, args []Value) Value {
+		require.Len(t, args, 1)
+		require.True(t, args[0].IsFunction())
+
+		return context.JsFunction(context.Null(), args[0], []Value{context.String("args test")})
+	})
+
+	result, err := context.Eval(`callback(args => { return args })`)
+	require.NoError(t, err)
+	defer result.Free()
+
+	require.True(t, result.IsString() && result.String() == "args test")
+}
+
 func TestConcurrency(t *testing.T) {
 	n := 32
 	m := 10000

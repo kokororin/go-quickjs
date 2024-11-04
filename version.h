@@ -1,5 +1,5 @@
-#ifndef _GUARD_H_PORT_H_
-#define _GUARD_H_PORT_H_
+#ifndef _QUICKJS_VERSION_H
+#define _QUICKJS_VERSION_H
 
 #define CONFIG_VERSION "2024-01-13"
 

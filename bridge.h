@@ -1,7 +1,10 @@
+#ifndef _QUICKJS_BRIDGE_H
+#define _QUICKJS_BRIDGE_H
+
 #include <stdlib.h>
 #include "quickjs.h"
 
-extern JSValue InvokeProxy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv);
+extern JSValue proxy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv);
 
 static JSValue JS_NewNull() {
     return JS_NULL;
@@ -34,3 +37,5 @@ static JSValue ThrowRangeError(JSContext *ctx, const char *fmt) {
 static JSValue ThrowInternalError(JSContext *ctx, const char *fmt) {
     return JS_ThrowInternalError(ctx, "%s", fmt);
 }
+
+#endif
