@@ -6,6 +6,7 @@ import (
 	stdruntime "runtime"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 )
@@ -192,4 +193,16 @@ func TestConcurrency(t *testing.T) {
 	for i := 0; i < m; i++ {
 		<-res
 	}
+}
+
+func TestTimeout(t *testing.T) {
+	runtime := NewRuntime()
+	defer runtime.Free()
+
+	context := runtime.NewContextWithTimeout(5 * time.Second)
+	defer context.Free()
+
+	result, err := context.Eval("while (true) {}")
+	require.Error(t, err)
+	defer result.Free()
 }

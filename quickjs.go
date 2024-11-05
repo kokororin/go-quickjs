@@ -16,6 +16,7 @@ import (
 	"math/big"
 	"sync"
 	"sync/atomic"
+	"time"
 	"unsafe"
 )
 
@@ -42,6 +43,12 @@ func (r Runtime) NewContext() *Context {
 	C.JS_EnableBignumExt(ref, C.int(1))
 
 	return &Context{ref: ref}
+}
+
+func (r Runtime) NewContextWithTimeout(timeout time.Duration) *Context {
+	ctx := r.NewContext()
+	ctx.timeout = timeout
+	return ctx
 }
 
 func (r Runtime) ExecutePendingJob() (Context, error) {
@@ -113,9 +120,11 @@ func proxy(ctx *C.JSContext, thisVal C.JSValueConst, argc C.int, argv *C.JSValue
 }
 
 type Context struct {
-	ref     *C.JSContext
-	globals *Value
-	proxy   *Value
+	ref       *C.JSContext
+	globals   *Value
+	proxy     *Value
+	timeout   time.Duration
+	interrupt C.InterruptValue
 }
 
 func (ctx *Context) Free() {
@@ -235,6 +244,10 @@ func (ctx *Context) evalFile(code, filename string) Value {
 
 	filenamePtr := C.CString(filename)
 	defer C.free(unsafe.Pointer(filenamePtr))
+
+	if ctx.timeout != 0 {
+		C.SetInterruptHandler(ctx.ref, C.double(ctx.timeout.Seconds()), &ctx.interrupt)
+	}
 
 	return Value{ctx: ctx, ref: C.JS_Eval(ctx.ref, codePtr, C.size_t(len(code)), filenamePtr, C.int(0))}
 }
